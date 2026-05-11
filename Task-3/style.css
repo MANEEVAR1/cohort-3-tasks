@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    user-select: none;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    background-color: #2C2832;
+}
+
+.div1 {
+    width: 100%;
+    height: 80%;
+    background-image: url(./assets/ChatGPT\ Image\ May\ 11\,\ 2026\,\ 07_00_31\ PM.png);
+    background-size: cover;
+    background-position: center 40%;
+    clip-path: ellipse(100% 90% at 50% 0%);
+    position: relative;
+}
+
+.monkey {
+    width: 100%;
+    height: 100%;
+    background-image: url(./assets/image-removebg-preview\ \(8\).png);
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 30%;
+    transform: scale(1.2);
+    z-index: 14;
+}
+
+.hero-cap {
+    width: 800px;
+    height: 120px;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    display: flex;
+    flex-direction: column;
+}
+
+.lrg-txt {
+    font-family: "Orbitron", sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    gap: 55px;
+    color: white;
+    position: absolute;
+    left: 30%;
+    top: 2%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+}
+
+button {
+    width: 200px;
+    height: 30px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F7D887;
+    border-radius: 5px;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 600;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    box-shadow: 2px 2px 5px black;
+}
+
+.txt-content {
+    font-family: "Orbitron", sans-serif;
+    color: white;
+    font-weight: 900;
+    font-size: 24px;
+    text-align: center;
+    position: relative;
+    bottom: 7%;
+}
+
+.para {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    margin: auto;
+    position: relative;
+    bottom: 3%;
+}
+
+.para>p {
+    width: 40%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
