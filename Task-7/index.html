@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow • DOM Mastery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen">
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-yellow-400 rounded-2xl flex items-center justify-center text-zinc-950 font-bold text-2xl">📋</div>
+                <div>
+                    <h1 class="logo-font text-4xl font-semibold tracking-tighter">TaskFlow</h1>
+                    <p class="text-zinc-500 text-sm">DOM Mastery Edition</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <button id="theme-toggle" class="flex items-center gap-2 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-2xl transition-colors">
+                    <i id="theme-icon" class="fas fa-moon"></i>
+                    <span id="theme-text" class="text-sm font-medium">Dark Mode</span>
+                </button>
+                
+                <div class="flex items-center gap-2 bg-zinc-900 px-4 py-2 rounded-3xl">
+                    <div id="stats-pending" class="text-emerald-400 text-sm font-medium">0 Pending</div>
+                    <div class="w-px h-4 bg-zinc-700"></div>
+                    <div id="stats-completed" class="text-amber-400 text-sm font-medium">0 Completed</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-12 gap-8">
+            <!-- Sidebar -->
+            <div class="col-span-12 lg:col-span-3 space-y-6">
+                <!-- Add Task Form -->
+                <div class="bg-zinc-900 rounded-3xl p-6 border border-zinc-800">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
+                        <i class="fas fa-plus"></i> New Task
+                    </h2>
+                    
+                    <form id="task-form" class="space-y-5">
+                        <div>
+                            <label class="block text-zinc-400 text-sm mb-1.5">Task Title</label>
+                            <input id="task-title" type="text" required class="w-full bg-zinc-800 border border-zinc-700 focus:border-yellow-400 rounded-2xl px-4 py-3 text-white outline-none transition-colors" placeholder="Buy groceries...">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-zinc-400 text-sm mb-1.5">Category</label>
+                            <select id="task-category" class="w-full bg-zinc-800 border border-zinc-700 focus:border-yellow-400 rounded-2xl px-4 py-3 text-white outline-none transition-colors">
+                                <option value="work">Work</option>
+                                <option value="personal">Personal</option>
+                                <option value="health">Health</option>
+                                <option value="study">Study</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
+                            <i class="fas fa-plus"></i> ADD TASK
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Filters -->
+                <div class="bg-zinc-900 rounded-3xl p-6 border border-zinc-800">
+                    <h2 class="text-lg font-semibold mb-4">Filters</h2>
+                    <div class="flex flex-col gap-2">
+                        <button onclick="filterTasks('all')" class="filter-btn active flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl text-left transition-colors" data-filter="all">
+                            <i class="fas fa-list text-yellow-400"></i><span>All Tasks</span>
+                        </button>
+                        <button onclick="filterTasks('pending')" class="filter-btn flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl text-left transition-colors" data-filter="pending">
+                            <i class="fas fa-clock text-emerald-400"></i><span>Pending</span>
+                        </button>
+                        <button onclick="filterTasks('completed')" class="filter-btn flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 rounded-2xl text-left transition-colors" data-filter="completed">
+                            <i class="fas fa-check text-amber-400"></i><span>Completed</span>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <input id="search-input" type="text" placeholder="Search tasks..." onkeyup="searchTasks()" class="w-full bg-zinc-800 border border-zinc-700 focus:border-yellow-400 rounded-2xl px-4 py-3 text-sm outline-none">
+                    </div>
+                </div>
+
+                <!-- Browser Pipeline -->
+                <div class="bg-zinc-900 rounded-3xl p-6 border border-zinc-800">
+                    <h2 class="text-lg font-semibold mb-5 flex items-center gap-2">
+                        <i class="fas fa-diagram-project"></i> Rendering Pipeline
+                    </h2>
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-center gap-3 bg-zinc-800 p-3 rounded-2xl">
+                            <div class="w-6 h-6 bg-blue-500 rounded-lg flex items-center justify-center text-xs font-bold">1</div>
+                            <div><div class="font-medium">HTML Parsing</div><div class="text-zinc-500 text-xs">Tokenization → DOM Tree</div></div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-zinc-800 p-3 rounded-2xl">
+                            <div class="w-6 h-6 bg-pink-500 rounded-lg flex items-center justify-center text-xs font-bold">2</div>
+                            <div><div class="font-medium">CSS Parsing</div><div class="text-zinc-500 text-xs">→ CSSOM Tree</div></div>
+                        </div>
+                        <div class="h-px bg-zinc-700 my-2"></div>
+                        <div class="flex items-center gap-3 bg-yellow-400/10 border border-yellow-400/30 p-3 rounded-2xl">
+                            <div class="w-6 h-6 bg-yellow-400 text-zinc-950 rounded-lg flex items-center justify-center text-xs font-bold">3</div>
+                            <div class="text-yellow-400"><div class="font-semibold">Render Tree</div><div class="text-xs">DOM + CSSOM</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-span-12 lg:col-span-9">
+                <div id="task-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[400px]"></div>
+
+                <div class="mt-8 flex justify-center">
+                    <button onclick="clearAllTasks()" class="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-2xl flex items-center gap-2 transition-colors">
+                        <i class="fas fa-trash"></i><span>Clear All Tasks</span>
+                    </button>
+                </div>
+
+                <!-- Event Propagation Demo -->
+                <div class="mt-16 bg-zinc-900 rounded-3xl p-8 border border-zinc-800">
+                    <h2 class="text-2xl font-semibold mb-6">Event Propagation Demo</h2>
+                    
+                    <div id="grandparent" class="demo-box bg-zinc-800 p-8 rounded-3xl border border-zinc-700 cursor-pointer">
+                        <div class="text-center mb-6">
+                            <div class="inline-flex items-center gap-2 bg-zinc-900 px-6 py-2 rounded-2xl text-sm">
+                                <span class="text-emerald-400">Grandparent</span>
+                            </div>
+                        </div>
+                        <div id="parent" class="demo-box bg-zinc-700 p-8 rounded-3xl border border-zinc-600 cursor-pointer">
+                            <div class="text-center mb-6">
+                                <div class="inline-flex items-center gap-2 bg-zinc-900 px-6 py-2 rounded-2xl text-sm">
+                                    <span class="text-sky-400">Parent</span>
+                                </div>
+                            </div>
+                            <div id="child" class="demo-box bg-zinc-600 p-6 rounded-3xl text-center cursor-pointer">
+                                <button onclick="demoClick(event)" class="px-8 py-4 bg-white text-zinc-950 font-semibold rounded-2xl hover:scale-105 transition-transform">
+                                    Click Me!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-6">
+                        <div class="bg-zinc-800 rounded-2xl p-5">
+                            <div class="text-emerald-400 font-medium mb-3 flex items-center gap-2"><i class="fas fa-arrow-up"></i> Bubbling</div>
+                            <pre id="bubbling-log" class="text-xs text-zinc-400 font-mono bg-black/50 p-4 rounded-xl h-40 overflow-auto"></pre>
+                        </div>
+                        <div class="bg-zinc-800 rounded-2xl p-5">
+                            <div class="text-rose-400 font-medium mb-3 flex items-center gap-2"><i class="fas fa-arrow-down"></i> Capturing</div>
+                            <pre id="capturing-log" class="text-xs text-zinc-400 font-mono bg-black/50 p-4 rounded-xl h-40 overflow-auto"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div class="bg-zinc-900 rounded-3xl p-8 w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-6">Edit Task</h3>
+            <input id="edit-title" type="text" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 mb-4">
+            <select id="edit-category" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 mb-6">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="health">Health</option>
+                <option value="study">Study</option>
+                <option value="other">Other</option>
+            </select>
+            <div class="flex gap-4">
+                <button onclick="saveEdit()" class="flex-1 bg-yellow-400 text-zinc-950 py-4 rounded-2xl font-semibold">Save</button>
+                <button onclick="cancelEdit()" class="flex-1 bg-zinc-800 py-4 rounded-2xl">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
